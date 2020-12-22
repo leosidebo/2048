@@ -1,3 +1,6 @@
+#include <stdbool.h>
+
+
 /**
  * @defgroup        game_h  OU2
  * @author
