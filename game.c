@@ -11,6 +11,14 @@ Array *board;
 
 /* Internal functions */
 
+static void initialize_board() {
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            array_set(board, i, j, 0);
+        }
+    }
+}
+
 static void add_rand_num()
 {
     int row, col;
@@ -44,14 +52,7 @@ void game_new(void)
 
     //Create board and zero all the tiles/squares.
     board = array_create(4,4);
-
-    for (int i = 0; i < 4; i++) {
-
-        for (int j = 0; j < 4; j++) {
-
-            array_set(board,i,j,0);
-        }
-    }
+    initialize_board();
 
     add_rand_num();
     add_rand_num();
