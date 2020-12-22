@@ -11,10 +11,9 @@ Array *board;
 
 /* Internal functions */
 
-static int random_num(int max, int min)
+static int r_num(int max, int min)
 {
-    srand(time(NULL));
-    return rand() & max + min;
+    return rand() % max + min;
 }
 
 /* External functions */
@@ -23,6 +22,9 @@ static int random_num(int max, int min)
 // Start a new game.
 void game_new(void)
 {
+    srand(time(NULL));
+
+    //Create board and zero it.
     board = array_create(4,4);
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
@@ -30,14 +32,26 @@ void game_new(void)
         }
     }
 
-    int r_col = random_num(3,0);
+    //Get a random position, set a 2 or 4 on the board there.
+    int r_row = r_num(3,0), r_col = r_num(3,0);
+    array_set(board, r_row, r_col, 4/r_num(2,1));
 
-    array_set(board, random_num(3,0), random_num(3,0), 4);
+     r_row = r_num(3,0);
+     r_col = r_num(3,0);
+     //If the new random position is not empty(Set previously)
+     //generate a new one.
 
-    if ( == 0) {
-        /* code */
+     //While loop kanske? För att det inte ska vara på samma POS
+     //Är chansen stor nog? hmmm
+    if (game_get_square(r_row, r_col) != 0) {
+        r_row = r_num(3,0);
+        r_col = r_num(3,0);
     }
-    array_set(board, random_num(3,0), random_num(3,0), 2);
+    //Set the num
+    array_set(board, r_row, r_col, 4/r_num(2,1));
+
+
+    //FOR TESTING ONLY
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
 
@@ -50,7 +64,7 @@ void game_new(void)
 // Quit the current game.
 void game_quit(void)
 {
-    free(board);
+    array_destroy(board);
 }
 
 // Return the value of the specified piece (0 if empty).
