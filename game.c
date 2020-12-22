@@ -11,9 +11,27 @@ Array *board;
 
 /* Internal functions */
 
-static int r_num(int max, int min)
+static void add_rand_num()
 {
-    return rand() % max + min;
+    int row, col;
+    //Get a random EMPTY tile/square
+    do {
+        
+         row = rand() % 3;
+
+         col = rand() % 3;
+
+    } while(game_get_square(row, col) != 0);
+
+    int num_to_add = 2;
+
+    //About 10% chance of getting a 4 according to the internet.
+    if (rand() % 10 == 0) {
+
+        num_to_add = 4;
+    }
+    //Add the num
+    array_set(board, row, col, num_to_add);
 }
 
 /* External functions */
@@ -24,7 +42,7 @@ void game_new(void)
 {
     srand(time(NULL));
 
-    //Create board and zero it.
+    //Create board all the tiles/squares.
     board = array_create(4,4);
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
@@ -32,24 +50,8 @@ void game_new(void)
         }
     }
 
-    //Get a random position, set a 2 or 4 on the board there.
-    int r_row = r_num(3,0), r_col = r_num(3,0);
-    array_set(board, r_row, r_col, 4/r_num(2,1));
-
-     r_row = r_num(3,0);
-     r_col = r_num(3,0);
-     //If the new random position is not empty(Set previously)
-     //generate a new one.
-
-     //While loop kanske? För att det inte ska vara på samma POS
-     //Är chansen stor nog? hmmm
-    if (game_get_square(r_row, r_col) != 0) {
-        r_row = r_num(3,0);
-        r_col = r_num(3,0);
-    }
-    //Set the num
-    array_set(board, r_row, r_col, 4/r_num(2,1));
-
+    add_rand_num();
+    add_rand_num();
 
     //FOR TESTING ONLY
     for (int i = 0; i < 4; i++) {
