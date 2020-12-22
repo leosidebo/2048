@@ -1,2 +1,12 @@
 game_new:
     Få ett slumptal från srand, kör modulo 16. Lägg in den positionen
+
+
+    |a|b|c|d|
+    Slide game_slide_right
+        -> börja från slutet
+        Kolla om c&d är samma, om gör nytt tal flytta till d
+        om inte, kolla om b&c, om flytta till c
+        om inte, kolla a,b, om flytta till b,
+
+        lägg till ny siffra.

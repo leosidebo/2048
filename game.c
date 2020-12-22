@@ -16,7 +16,7 @@ static void add_rand_num()
     int row, col;
     //Get a random EMPTY tile/square
     do {
-        
+
          row = rand() % 3;
 
          col = rand() % 3;
@@ -42,10 +42,13 @@ void game_new(void)
 {
     srand(time(NULL));
 
-    //Create board all the tiles/squares.
+    //Create board and zero all the tiles/squares.
     board = array_create(4,4);
+
     for (int i = 0; i < 4; i++) {
+
         for (int j = 0; j < 4; j++) {
+
             array_set(board,i,j,0);
         }
     }
@@ -64,6 +67,7 @@ void game_new(void)
 }
 
 // Quit the current game.
+//Free the allocated memory.
 void game_quit(void)
 {
     array_destroy(board);
@@ -96,5 +100,8 @@ void game_slide_left(void)
 // Return true if the game is over (2048 reached or no empty squares).
 bool game_is_game_over(void)
 {
-
+    //Go through the array and if;
+    //                                            2048 = !win!
+    //                        no "zero" tiles/squares = !lose!
+    //                  1 <= "zero" tiles/squares = !continue!
 }
