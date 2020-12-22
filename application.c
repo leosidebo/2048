@@ -13,6 +13,7 @@ void print_menu(void) {
 
 void app_run(void)
 {
+    game_new();
     int input;
 
     do {
