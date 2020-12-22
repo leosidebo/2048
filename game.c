@@ -11,10 +11,27 @@ Array *board;
 
 /* Internal functions */
 
-static int random_num(int max, int min)
+static void add_rand_num()
 {
-    srand(time(NULL));
-    return rand() & max + min;
+    int row, col;
+    //Get a random EMPTY tile/square
+    do {
+
+         row = rand() % 3;
+
+         col = rand() % 3;
+
+    } while(game_get_square(row, col) != 0);
+
+    int num_to_add = 2;
+
+    //About 10% chance of getting a 4 according to the internet.
+    if (rand() % 10 == 0) {
+
+        num_to_add = 4;
+    }
+    //Add the num
+    array_set(board, row, col, num_to_add);
 }
 
 /* External functions */
@@ -23,21 +40,23 @@ static int random_num(int max, int min)
 // Start a new game.
 void game_new(void)
 {
+    srand(time(NULL));
+
+    //Create board and zero all the tiles/squares.
     board = array_create(4,4);
+
     for (int i = 0; i < 4; i++) {
+
         for (int j = 0; j < 4; j++) {
+
             array_set(board,i,j,0);
         }
     }
 
-    int r_col = random_num(3,0);
+    add_rand_num();
+    add_rand_num();
 
-    array_set(board, random_num(3,0), random_num(3,0), 4);
-
-    if ( == 0) {
-        /* code */
-    }
-    array_set(board, random_num(3,0), random_num(3,0), 2);
+    //FOR TESTING ONLY
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
 
@@ -48,9 +67,10 @@ void game_new(void)
 }
 
 // Quit the current game.
+//Free the allocated memory.
 void game_quit(void)
 {
-    free(board);
+    array_destroy(board);
 }
 
 // Return the value of the specified piece (0 if empty).
@@ -80,5 +100,8 @@ void game_slide_left(void)
 // Return true if the game is over (2048 reached or no empty squares).
 bool game_is_game_over(void)
 {
-
+    //Go through the array and if;
+    //                                            2048 = !win!
+    //                        no "zero" tiles/squares = !lose!
+    //                  1 <= "zero" tiles/squares = !continue!
 }
