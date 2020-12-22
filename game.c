@@ -1,15 +1,34 @@
 #include "array.h"
+#include <stdlib.h>
+
+/* Global variables */
+
+//Global gameboard variable.
+Array *board;
+
+
+/* Internal functions */
+
+static int random_num(int max, int min)
+{
+    srand(time(NULL));
+    return = rand() & max + min;
+}
+
+/* External functions */
+
 
 // Start a new game.
 void game_new(void)
 {
-
+    board = array_create(4,4);
+    array_set()
 }
 
 // Quit the current game.
 void game_quit(void)
 {
-
+    free(board);
 }
 
 // Return the value of the specified piece (0 if empty).
