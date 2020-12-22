@@ -33,4 +33,6 @@ void app_run(void)
             game_slide_left();
         }
     } while(input != 0);
+
+    game_quit();
 }
