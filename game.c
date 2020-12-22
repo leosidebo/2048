@@ -11,7 +11,7 @@ Array *board;
 
 /* Internal functions */
 
-static void initialize_board() {
+static void initialize_board(void) {
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
             array_set(board, i, j, 0);
@@ -19,7 +19,7 @@ static void initialize_board() {
     }
 }
 
-static void add_rand_num()
+static void add_rand_num(void)
 {
     int row, col;
     //Get a random EMPTY tile/square
@@ -42,6 +42,17 @@ static void add_rand_num()
     array_set(board, row, col, num_to_add);
 }
 
+static void draw_board(void) {
+    // Preliminär version av ritningen
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+
+            printf("%d  ",game_get_square(i,j));
+        }
+        printf("\n");
+    }
+}
+
 /* External functions */
 
 
@@ -57,14 +68,7 @@ void game_new(void)
     add_rand_num();
     add_rand_num();
 
-    //FOR TESTING ONLY
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
-
-            printf("%d  ",game_get_square(i,j));
-        }
-        printf("\n");
-    }
+    draw_board();
 }
 
 // Quit the current game.
