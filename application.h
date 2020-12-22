@@ -12,6 +12,7 @@
  *@{
  */
 
+#include <stdio.h>
 
  /**
   * @brief
