@@ -14,7 +14,7 @@ void print_menu(void) {
 void app_run(void)
 {
     game_new();
-    int input;
+    int input = 1;
 
     do {
         print_menu();
@@ -22,7 +22,7 @@ void app_run(void)
 
         if(input == 1) {
             game_slide_up();
-        } 
+        }
         else if(input == 2) {
             game_slide_right();
         }

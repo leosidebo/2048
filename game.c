@@ -92,7 +92,26 @@ void game_slide_up(void)
 void game_slide_right(void)
 {
 
-}
+    //check if empty then move there.
+     for (int i = 0 ; i <= 3 ; i++) {
+         for (int j = 1 ; j <= 3 ; j++) {
+             if(game_get_square(i,j-1) == game_get_square(i,j) && game_get_square(i,j) != 0)
+             {
+                 printf("1\n");
+                 array_set(board , i, j, 2 * game_get_square(i,j));
+                 array_set(board , i, j-1, 0);
+             } else if (game_get_square(i,j) == 0 && game_get_square(i,j-1) != 0){
+                 draw_board();
+                 printf("\n");
+                array_set(board , i, j, game_get_square(i, j-1));
+                array_set(board , i, j-1, 0);
+             }
+         }
+     }
+     draw_board();
+     add_rand_num();
+     draw_board();
+ }
 void game_slide_down(void)
 {
 
@@ -105,6 +124,7 @@ void game_slide_left(void)
 // Return true if the game is over (2048 reached or no empty squares).
 bool game_is_game_over(void)
 {
+    return 0;
     //Go through the array and if;
     //                                            2048 = !win!
     //                        no "zero" tiles/squares = !lose!
