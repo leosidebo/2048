@@ -19,7 +19,6 @@ static void initialize_board(void) {
     }
 }
 
-
 static void add_rand_num(void)
 {
     int row, col;
@@ -61,8 +60,8 @@ static void move_right_next_zero(int row, int col)
 
         if (game_get_square(row,col+1) == 0) {
 
-            array_set(board , row, col+1, game_get_square(row,col));
-            array_set(board , row, col, 0);
+            array_set(board, row, col+1, game_get_square(row,col));
+            array_set(board, row, col, 0);
         }
 
         move_right_next_zero(row,col+1);
@@ -75,11 +74,18 @@ static void check_neighbour(int row, int col)
 
         if (game_get_square(row,col+1) == game_get_square(row,col) && game_get_square(row,col+1) != 0) {
 
-            array_set(board , row, col+1, 2 * game_get_square(row,col));
-            array_set(board , row, col, 0);
-        }
+            array_set(board, row, col+1, 2 * game_get_square(row,col));
+            array_set(board, row, col, 0);
+                
+            // This allows for a special case where 4 consecutive 
+            // tiles have the same number    
+            if (col == 0) {
+                check_neighbour(row,col+2);
+            }
 
-        check_neighbour(row,col+1);
+        } else {
+            check_neighbour(row,col+1);
+        }
     }
 }
 
@@ -120,24 +126,27 @@ void game_slide_up(void)
 {
 
 }
+
 void game_slide_right(void)
 {
-
     //check if empty then move there.
-     for (int row = 0 ; row <= 3 ; row++) {
-         for (int col = 2 ; col >= 0 ; col--) {
-                 move_right_next_zero(row,col);
-                 check_neighbour(row,col);
-         }
-     }
-     printf("\n");
-     add_rand_num();
-     draw_board();
- }
+    for (int row = 0 ; row <= 3 ; row++) {
+        for (int col = 2 ; col >= 0 ; col--) {
+            move_right_next_zero(row,col);
+            check_neighbour(row,col);
+        }
+    }
+
+    printf("\n");
+    add_rand_num();
+    draw_board();
+}
+
 void game_slide_down(void)
 {
 
 }
+
 void game_slide_left(void)
 {
     for (int i = 0 ; i <= 3 ; i++) {
@@ -156,6 +165,7 @@ void game_slide_left(void)
 
         }
     }
+
     printf("\n");
     add_rand_num();
     draw_board();
