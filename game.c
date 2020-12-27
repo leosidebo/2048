@@ -19,6 +19,7 @@ static void initialize_board(void) {
     }
 }
 
+
 static void add_rand_num(void)
 {
     int row, col;
@@ -42,6 +43,7 @@ static void add_rand_num(void)
     array_set(board, row, col, num_to_add);
 }
 
+
 static void draw_board(void) {
     // Preliminär version av ritningen
     for (int i = 0; i < 4; i++) {
@@ -52,6 +54,35 @@ static void draw_board(void) {
         printf("\n");
     }
 }
+
+static void move_right_next_zero(int row, int col)
+{
+    if (col < 3) {
+
+        if (game_get_square(row,col+1) == 0) {
+
+            array_set(board , row, col+1, game_get_square(row,col));
+            array_set(board , row, col, 0);
+        }
+
+        move_right_next_zero(row,col+1);
+    }
+}
+
+static void check_neighbour(int row, int col)
+{
+    if (col < 3) {
+
+        if (game_get_square(row,col+1) == game_get_square(row,col) && game_get_square(row,col+1) != 0) {
+
+            array_set(board , row, col+1, 2 * game_get_square(row,col));
+            array_set(board , row, col, 0);
+        }
+
+        check_neighbour(row,col+1);
+    }
+}
+
 
 /* External functions */
 
@@ -93,22 +124,13 @@ void game_slide_right(void)
 {
 
     //check if empty then move there.
-     for (int i = 0 ; i <= 3 ; i++) {
-         for (int j = 1 ; j <= 3 ; j++) {
-             if(game_get_square(i,j-1) == game_get_square(i,j) && game_get_square(i,j) != 0)
-             {
-                 printf("1\n");
-                 array_set(board , i, j, 2 * game_get_square(i,j));
-                 array_set(board , i, j-1, 0);
-             } else if (game_get_square(i,j) == 0 && game_get_square(i,j-1) != 0){
-                 draw_board();
-                 printf("\n");
-                array_set(board , i, j, game_get_square(i, j-1));
-                array_set(board , i, j-1, 0);
-             }
+     for (int row = 0 ; row <= 3 ; row++) {
+         for (int col = 2 ; col >= 0 ; col--) {
+                 move_right_next_zero(row,col);
+                 check_neighbour(row,col);
          }
      }
-     draw_board();
+     printf("\n");
      add_rand_num();
      draw_board();
  }
@@ -118,6 +140,25 @@ void game_slide_down(void)
 }
 void game_slide_left(void)
 {
+    for (int i = 0 ; i <= 3 ; i++) {
+        for (int j = 3 ; j >= 1 ; j--) {
+            //slide_into_dm(i,j);
+
+             if(game_get_square(i,j) == game_get_square(i,j-1) && game_get_square(i,j) != 0)
+             {
+                 array_set(board , i, j-1, 2 * game_get_square(i,j));
+                 array_set(board , i, j, 0);
+             } else if (game_get_square(i,j-1) == 0 && game_get_square(i,j) != 0){
+
+                array_set(board , i, j-1, game_get_square(i, j));
+                array_set(board , i, j, 0);
+            }
+
+        }
+    }
+    printf("\n");
+    add_rand_num();
+    draw_board();
 
 }
 
