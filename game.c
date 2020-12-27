@@ -129,11 +129,14 @@ void game_slide_up(void)
 
 void game_slide_right(void)
 {
+    int edge = 3;
+    int direction = 1;
+
     //check if empty then move there.
     for (int row = 0 ; row <= 3 ; row++) {
-        for (int col = 2 ; col >= 0 ; col--) {
-            check_neighbour(row, col, 3, 1);
-            move_horizontal_next_zero(row, col, 3, 1);
+        for (int col = 3 ; col >= 0 ; col--) {
+            check_neighbour(row, col, edge, direction);
+            move_horizontal_next_zero(row, col, edge, direction);
         }
     }
 
@@ -149,11 +152,14 @@ void game_slide_down(void)
 
 void game_slide_left(void)
 {
+    int edge = 0;
+    int direction = -1;
+
     //check if empty then move there.
     for (int row = 3 ; row >= 0 ; row--) {
         for (int col = 3 ; col >= 0 ; col--) {
-            check_neighbour(row, col, 0, -1);
-            move_horizontal_next_zero(row, col, 0, -1);
+            check_neighbour(row, col, edge, direction);
+            move_horizontal_next_zero(row, col, edge, direction);
         }
     }
 
