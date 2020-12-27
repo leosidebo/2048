@@ -25,9 +25,8 @@ static void add_rand_num(void)
     //Get a random EMPTY tile/square
     do {
 
-         row = rand() % 3;
-
-         col = rand() % 3;
+        row = rand() % 4;
+        col = rand() % 4;
 
     } while(game_get_square(row, col) != 0);
 
@@ -54,37 +53,38 @@ static void draw_board(void) {
     }
 }
 
-static void move_right_next_zero(int row, int col)
+static void move_horizontal_next_zero(int row, int col, int edge, int direction)
 {
-    if (col < 3) {
+    if ((direction == 1 && col < edge) || (direction == -1 && col > edge)) {
 
-        if (game_get_square(row,col+1) == 0) {
+        if (game_get_square(row,col + direction) == 0) {
 
-            array_set(board, row, col+1, game_get_square(row,col));
+            array_set(board, row, col + direction, game_get_square(row,col));
             array_set(board, row, col, 0);
         }
 
-        move_right_next_zero(row,col+1);
+        move_horizontal_next_zero(row, col + direction, edge, direction);
     }
 }
 
-static void check_neighbour(int row, int col)
+static void check_neighbour(int row, int col, int edge, int direction)
 {
-    if (col < 3) {
+    if ((direction == 1 && col < edge) || (direction == -1 && col > edge)) {
 
-        if (game_get_square(row,col+1) == game_get_square(row,col) && game_get_square(row,col+1) != 0) {
+        if (game_get_square(row,col + direction) == game_get_square(row,col) 
+            && game_get_square(row,col + direction) != 0) {
 
-            array_set(board, row, col+1, 2 * game_get_square(row,col));
+            array_set(board, row, col + direction, 2 * game_get_square(row,col));
             array_set(board, row, col, 0);
                 
             // This allows for a special case where 4 consecutive 
             // tiles have the same number    
             if (col == 0) {
-                check_neighbour(row,col+2);
+                check_neighbour(row,col + (direction * 2), edge, direction);
             }
 
         } else {
-            check_neighbour(row,col+1);
+            check_neighbour(row,col + direction, edge, direction);
         }
     }
 }
@@ -132,8 +132,8 @@ void game_slide_right(void)
     //check if empty then move there.
     for (int row = 0 ; row <= 3 ; row++) {
         for (int col = 2 ; col >= 0 ; col--) {
-            move_right_next_zero(row,col);
-            check_neighbour(row,col);
+            check_neighbour(row, col, 3, 1);
+            move_horizontal_next_zero(row, col, 3, 1);
         }
     }
 
@@ -149,27 +149,17 @@ void game_slide_down(void)
 
 void game_slide_left(void)
 {
-    for (int i = 0 ; i <= 3 ; i++) {
-        for (int j = 3 ; j >= 1 ; j--) {
-            //slide_into_dm(i,j);
-
-             if(game_get_square(i,j) == game_get_square(i,j-1) && game_get_square(i,j) != 0)
-             {
-                 array_set(board , i, j-1, 2 * game_get_square(i,j));
-                 array_set(board , i, j, 0);
-             } else if (game_get_square(i,j-1) == 0 && game_get_square(i,j) != 0){
-
-                array_set(board , i, j-1, game_get_square(i, j));
-                array_set(board , i, j, 0);
-            }
-
+    //check if empty then move there.
+    for (int row = 3 ; row >= 0 ; row--) {
+        for (int col = 3 ; col >= 0 ; col--) {
+            check_neighbour(row, col, 0, -1);
+            move_horizontal_next_zero(row, col, 0, -1);
         }
     }
 
     printf("\n");
     add_rand_num();
     draw_board();
-
 }
 
 // Return true if the game is over (2048 reached or no empty squares).
