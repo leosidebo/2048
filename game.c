@@ -45,12 +45,21 @@ static void add_rand_num(void)
 static void draw_board(void) {
     // Preliminär version av ritningen
     for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
 
-            printf("%d  ",game_get_square(i,j));
+            int arr[4];
+
+            for (int j = 0; j < 4; j++) {
+
+                arr[j] = game_get_square(i,j);
+            }
+
+            printf("+--------+--------+--------+--------+\n");
+            printf("|        |        |        |        |\n");
+            printf("|   %d    |   %d    |   %d    |   %d    |\n", arr[0], arr[1], arr[2], arr[3]);
+            printf("|        |        |        |        |\n");
         }
-        printf("\n");
-    }
+
+    printf("+--------+--------+--------+--------+\n");
 }
 
 static void move_horizontal_next_zero(int row, int col, int edge, int direction)
