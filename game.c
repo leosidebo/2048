@@ -53,38 +53,59 @@ static void draw_board(void) {
     }
 }
 
-static void move_horizontal_next_zero(int row, int col, int edge, int direction)
+static void move_horizontal_next_zero(int row, int col, int edge, int verticalDir, int horizontalDir)
 {
-    if ((direction == 1 && col < edge) || (direction == -1 && col > edge)) {
+    int relevantDirection = horizontalDir;
+    int relevantAxis = col;
 
-        if (game_get_square(row,col + direction) == 0) {
+    if(verticalDir != 0) {
+        relevantDirection = verticalDir;
+        relevantAxis = row;
+    }
 
-            array_set(board, row, col + direction, game_get_square(row,col));
+    if ((relevantDirection == 1 && relevantAxis < edge) || (relevantDirection == -1 && relevantAxis > edge)) {
+
+        int nextSquare = game_get_square(row + verticalDir, col + horizontalDir);
+        int currentSquare = game_get_square(row, col);
+
+        if (nextSquare == 0) {
+
+            array_set(board, row + verticalDir, col + horizontalDir, currentSquare);
             array_set(board, row, col, 0);
         }
 
-        move_horizontal_next_zero(row, col + direction, edge, direction);
+        move_horizontal_next_zero(row + verticalDir, col + horizontalDir, edge, verticalDir, horizontalDir);
     }
 }
 
-static void check_neighbour(int row, int col, int edge, int direction)
+static void check_neighbour(int row, int col, int edge, int verticalDir, int horizontalDir)
 {
-    if ((direction == 1 && col < edge) || (direction == -1 && col > edge)) {
+    int relevantDirection = horizontalDir;
+    int relevantAxis = col;
 
-        if (game_get_square(row,col + direction) == game_get_square(row,col) 
-            && game_get_square(row,col + direction) != 0) {
+    if(verticalDir != 0) {
+        relevantDirection = verticalDir;
+        relevantAxis = row;
+    }
 
-            array_set(board, row, col + direction, 2 * game_get_square(row,col));
+    if ((relevantDirection == 1 && relevantAxis < edge) || (relevantDirection == -1 && relevantAxis > edge)) {
+
+        int nextSquare = game_get_square(row + verticalDir, col + horizontalDir);
+        int currentSquare = game_get_square(row, col);
+
+        if (nextSquare == currentSquare && nextSquare != 0) {
+
+            array_set(board, row + verticalDir, col + horizontalDir, 2 * currentSquare);
             array_set(board, row, col, 0);
                 
             // This allows for a special case where 4 consecutive 
             // tiles have the same number    
             if (col == 0) {
-                check_neighbour(row,col + (direction * 2), edge, direction);
+                check_neighbour(row + (verticalDir * 2), col + (horizontalDir * 2), edge, verticalDir, horizontalDir);
             }
 
         } else {
-            check_neighbour(row,col + direction, edge, direction);
+            check_neighbour(row + verticalDir, col + horizontalDir, edge, verticalDir, horizontalDir);
         }
     }
 }
@@ -124,20 +145,33 @@ int game_get_square(int row, int column)
 // Slide all pieces up, right, down, or left.
 void game_slide_up(void)
 {
+    int edge = 0;
+    int verticalDir = -1;
+    int horizontalDir = 0;
 
+    //check if empty then move there.
+    for (int col = 0 ; col <= 3 ; col++) {
+        move_horizontal_next_zero(3, col, edge, verticalDir, horizontalDir);
+        check_neighbour(3, col, edge, verticalDir, horizontalDir);
+        move_horizontal_next_zero(3, col, edge, verticalDir, horizontalDir);
+    }
+
+    printf("\n");
+    add_rand_num();
+    draw_board();
 }
 
 void game_slide_right(void)
 {
     int edge = 3;
-    int direction = 1;
+    int verticalDir = 0;
+    int horizontalDir = 1;
 
     //check if empty then move there.
     for (int row = 0 ; row <= 3 ; row++) {
-        for (int col = 3 ; col >= 0 ; col--) {
-            // check_neighbour(row, col, edge, direction);
-            move_horizontal_next_zero(row, col, edge, direction);
-        }
+        move_horizontal_next_zero(row, 0, edge, verticalDir, horizontalDir);
+        check_neighbour(row, 0, edge, verticalDir, horizontalDir);
+        move_horizontal_next_zero(row, 0, edge, verticalDir, horizontalDir);
     }
 
     printf("\n");
@@ -147,20 +181,33 @@ void game_slide_right(void)
 
 void game_slide_down(void)
 {
+    int edge = 3;
+    int verticalDir = 1;
+    int horizontalDir = 0;
 
+    //check if empty then move there.
+    for (int col = 3 ; col >= 0 ; col--) {
+        move_horizontal_next_zero(0, col, edge, verticalDir, horizontalDir);
+        check_neighbour(0, col, edge, verticalDir, horizontalDir);
+        move_horizontal_next_zero(0, col, edge, verticalDir, horizontalDir);
+    }
+
+    printf("\n");
+    add_rand_num();
+    draw_board();
 }
 
 void game_slide_left(void)
 {
     int edge = 0;
-    int direction = -1;
+    int verticalDir = 0;
+    int horizontalDir = -1;
 
     //check if empty then move there.
     for (int row = 3 ; row >= 0 ; row--) {
-        for (int col = 0 ; col <= 3 ; col++) {
-            // check_neighbour(row, col, edge, direction);
-            move_horizontal_next_zero(row, col, edge, direction);
-        }
+        move_horizontal_next_zero(row, 3, edge, verticalDir, horizontalDir);
+        check_neighbour(row, 3, edge, verticalDir, horizontalDir);
+        move_horizontal_next_zero(row, 3, edge, verticalDir, horizontalDir);
     }
 
     printf("\n");
