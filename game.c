@@ -71,14 +71,14 @@ static void check_neighbour(int row, int col, int edge, int direction)
 {
     if ((direction == 1 && col < edge) || (direction == -1 && col > edge)) {
 
-        if (game_get_square(row,col + direction) == game_get_square(row,col) 
+        if (game_get_square(row,col + direction) == game_get_square(row,col)
             && game_get_square(row,col + direction) != 0) {
 
             array_set(board, row, col + direction, 2 * game_get_square(row,col));
             array_set(board, row, col, 0);
-                
-            // This allows for a special case where 4 consecutive 
-            // tiles have the same number    
+
+            // This allows for a special case where 4 consecutive
+            // tiles have the same number
             if (col == 0) {
                 check_neighbour(row,col + (direction * 2), edge, direction);
             }
@@ -129,15 +129,11 @@ void game_slide_up(void)
 
 void game_slide_right(void)
 {
-    int edge = 3;
-    int direction = 1;
-
     //check if empty then move there.
     for (int row = 0 ; row <= 3 ; row++) {
-        for (int col = 3 ; col >= 0 ; col--) {
-            // check_neighbour(row, col, edge, direction);
-            move_horizontal_next_zero(row, col, edge, direction);
-        }
+            move_horizontal_next_zero(row, 0, 3, 1);
+            check_neighbour(row, 0, 3, 1);
+
     }
 
     printf("\n");
@@ -156,11 +152,9 @@ void game_slide_left(void)
     int direction = -1;
 
     //check if empty then move there.
-    for (int row = 3 ; row >= 0 ; row--) {
-        for (int col = 0 ; col <= 3 ; col++) {
-            // check_neighbour(row, col, edge, direction);
-            move_horizontal_next_zero(row, col, edge, direction);
-        }
+    for (int row = 0 ; row <= 3 ; row++) {
+            check_neighbour(row, 3, edge, direction);
+            move_horizontal_next_zero(row, 3, edge, direction);
     }
 
     printf("\n");
