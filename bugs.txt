@@ -1,0 +1,35 @@
+
+4  2  4  2
+0  2  8  2
+2  0  2  8 <-
+0  0  2  8
+SELECT ACTION
+0: quit
+1: slide up
+2: slide right
+3: slide down
+4: slide left
+? 2
+
+4  2  4  2
+0  2  8  2
+0  2  2  8  <-
+2  0  2  8
+------------------
+
+8  2  0  0
+8  4  2  2  <-
+2  8  0  0
+4  2  4  0
+SELECT ACTION
+0: quit
+1: slide up
+2: slide right
+3: slide down
+4: slide left
+? 4
+
+8  2  0  0
+16  2  0  0 <-
+2  8  0  0
+4  2  4  0

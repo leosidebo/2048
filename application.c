@@ -14,25 +14,42 @@ void print_menu(void) {
 void app_run(void)
 {
     game_new();
+
     int input = 1;
 
     do {
+
         print_menu();
+
         scanf("%d", &input);
 
         if(input == 1) {
+
+            printf("Sliding up ...\n");
+
             game_slide_up();
         }
         else if(input == 2) {
+
+            printf("Sliding right ...\n");
+
             game_slide_right();
         }
         else if(input == 3) {
+
+            printf("Sliding down ...\n");
+
             game_slide_down();
         }
         else if(input == 4) {
+
+            printf("Sliding left ...\n");
+
             game_slide_left();
         }
     } while(input != 0);
+
+    printf("Quiting game ...\n");
 
     game_quit();
 }
