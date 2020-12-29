@@ -19,7 +19,7 @@ game_new:
         --
         |2|2|2|2| ->|2|2|0|4|
         |2|2|0|4| ->|2|2|0|4|
-        |2|2|0|4| -> |0|4|0|4| -> |0|0|4|4| 
+        |2|2|0|4| -> |0|4|0|4| -> |0|0|4|4|
        1x 2x 3x 4x
         |2|2|4|2| ->|0|4|4|2|
         kolla om 4 - 2 ; nej
@@ -27,3 +27,16 @@ game_new:
         kolla om 2 - 2; ja.
             kolla om nästa är 0 ja - byt plats
                 kolla om nästa är 0 - byt plats
+
+
+                --------
+
+                Kolla om något tal är 2048? ja nej
+                kolla om grannar är samma tal, samt nere
+                    tex 2 4 8 16 är kan ej flytta höger resp vänster
+                    men 4 2 2 8 kan bägge hållen.
+                    2       4
+                    4       2
+                    8       2
+                    6       8
+                    nej     ja
