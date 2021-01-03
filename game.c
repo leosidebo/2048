@@ -12,14 +12,6 @@ Array *board;
 
 /* Internal functions */
 
-static void initialize_board(void) {
-    for (int row = 0 ; row < 4 ; row++) {
-        for (int col = 0 ; col < 4 ; col++) {
-            array_set(board, row, col, 0);
-        }
-    }
-}
-
 static void add_rand_num(void)
 {
     int row, col;
@@ -108,7 +100,6 @@ static void move_next_zero(int row, int col, int edge, int verticalDir, int hori
         int currentSquare = game_get_square(row, col);
 
         if (nextSquare == 0) {
-
             array_set(board, row + verticalDir, col + horizontalDir, currentSquare);
             array_set(board, row, col, 0);
         }
@@ -160,7 +151,6 @@ void game_new(void)
 
     //Create board and zero all the tiles/squares.
     board = array_create(4,4);
-    initialize_board();
 
     add_rand_num();
     add_rand_num();
