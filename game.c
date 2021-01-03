@@ -139,7 +139,7 @@ static void check_neighbour(int row, int col, int edge, int verticalDir, int hor
 
             // This allows for a special case where 4 consecutive
             // tiles have the same number
-            if (relevantAxis == 0) {
+            if ((relevantAxis == 0 && edge == 3) || (relevantAxis == 3 && edge == 0)) {
                 check_neighbour(row + (verticalDir * 2), col + (horizontalDir * 2), edge, verticalDir, horizontalDir);
             }
 

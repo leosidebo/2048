@@ -50,7 +50,7 @@ void app_run(void)
     //If the game is not over and the user has not quit, continue.
     } while(!game_is_game_over() && input != 0);
 
-    printf("Quiting game ...\n");
+    printf("Quitting game ...\n");
 
     game_quit();
 }
