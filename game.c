@@ -92,7 +92,7 @@ static void draw_board(void)
 
 
 
-static void move_horizontal_next_zero(int row, int col, int edge, int verticalDir, int horizontalDir)
+static void move_next_zero(int row, int col, int edge, int verticalDir, int horizontalDir)
 {
     int relevantDirection = horizontalDir;
     int relevantAxis = col;
@@ -113,7 +113,7 @@ static void move_horizontal_next_zero(int row, int col, int edge, int verticalDi
             array_set(board, row, col, 0);
         }
 
-        move_horizontal_next_zero(row + verticalDir, col + horizontalDir, edge, verticalDir, horizontalDir);
+        move_next_zero(row + verticalDir, col + horizontalDir, edge, verticalDir, horizontalDir);
     }
 }
 
@@ -190,9 +190,9 @@ void game_slide_up(void)
 
     //check if empty then move there.
     for (int col = 0 ; col <= 3 ; col++) {
-        move_horizontal_next_zero(3, col, edge, verticalDir, horizontalDir);
+        move_next_zero(3, col, edge, verticalDir, horizontalDir);
         check_neighbour(3, col, edge, verticalDir, horizontalDir);
-        move_horizontal_next_zero(3, col, edge, verticalDir, horizontalDir);
+        move_next_zero(3, col, edge, verticalDir, horizontalDir);
     }
 
     printf("\n");
@@ -208,9 +208,9 @@ void game_slide_right(void)
 
     //check if empty then move there.
     for (int row = 0 ; row <= 3 ; row++) {
-        move_horizontal_next_zero(row, 0, edge, verticalDir, horizontalDir);
+        move_next_zero(row, 0, edge, verticalDir, horizontalDir);
         check_neighbour(row, 0, edge, verticalDir, horizontalDir);
-        move_horizontal_next_zero(row, 0, edge, verticalDir, horizontalDir);
+        move_next_zero(row, 0, edge, verticalDir, horizontalDir);
     }
 
     printf("\n");
@@ -226,9 +226,9 @@ void game_slide_down(void)
 
     //check if empty then move there.
     for (int col = 3 ; col >= 0 ; col--) {
-        move_horizontal_next_zero(0, col, edge, verticalDir, horizontalDir);
+        move_next_zero(0, col, edge, verticalDir, horizontalDir);
         check_neighbour(0, col, edge, verticalDir, horizontalDir);
-        move_horizontal_next_zero(0, col, edge, verticalDir, horizontalDir);
+        move_next_zero(0, col, edge, verticalDir, horizontalDir);
     }
 
     printf("\n");
@@ -244,9 +244,9 @@ void game_slide_left(void)
 
     //check if empty then move there.
     for (int row = 3 ; row >= 0 ; row--) {
-        move_horizontal_next_zero(row, 3, edge, verticalDir, horizontalDir);
+        move_next_zero(row, 3, edge, verticalDir, horizontalDir);
         check_neighbour(row, 3, edge, verticalDir, horizontalDir);
-        move_horizontal_next_zero(row, 3, edge, verticalDir, horizontalDir);
+        move_next_zero(row, 3, edge, verticalDir, horizontalDir);
     }
 
     printf("\n");
