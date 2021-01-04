@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+
+
 /* Global variables */
 
 //Global gameboard variable.
@@ -12,10 +14,19 @@ Array *board;
 
 /* Internal functions */
 
+
+/*
+    Get a random row and col position between 0 and 3.
+    Repeat untill the position chosen is empty.
+
+    10% of the time it's a 4 else a 2.
+    Add a number to the square.
+*/
+
 static void add_rand_num(void)
 {
     int row, col;
-    //Get a random EMPTY tile/square
+
     do {
 
         row = rand() % 4;
@@ -34,7 +45,12 @@ static void add_rand_num(void)
     array_set(board, row, col, num_to_add);
 }
 
-//total width = 8.
+
+/*
+    Calculates how many spaces a number in a square will take up.
+    Returns the number of spaces.
+*/
+
 static int draw_board_padding(int row, int col)
 {
     int padding = 1;
@@ -49,9 +65,23 @@ static int draw_board_padding(int row, int col)
     return padding;
 }
 
+
+/*
+    Draws the board.
+    If the number to be added is a zero an empty space is printed instead.
+
+    If the number is not a zero, calculate the padding left and right of the number.
+    The total number of empty space between the | is 8.
+
+    Calculate the number of spaces to the left and right of the number
+    and print them together with the number.
+
+    Print the other half of the board section,
+    repeat until the board is completely drawn.
+*/
+
 static void draw_board(void)
 {
-    // Preliminär version av ritningen
     for (int row = 0; row < 4; row++) {
 
             int arr[4];
@@ -62,14 +92,23 @@ static void draw_board(void)
             for (int col = 0; col < 4; col++) {
 
                 arr[col] = game_get_square(row,col);
-                padd[col] = draw_board_padding(row,col);
 
-                int rem = 8 - padd[col];
-                int right = rem/2;
-                int left = rem - right;
+                //If its a zero, nothing in that square is to be printed.
+                if (arr[col] == 0) {
 
-                printf("%*s%d%*s|",left,"",arr[col],right,"");
+                    printf("        |");
+                } else {
+
+                    padd[col] = draw_board_padding(row,col);
+
+                    int rem = 8 - padd[col];
+                    int right = rem / 2;
+                    int left = rem - right;
+
+                    printf("%*s%d%*s|",left,"",arr[col],right,"");
+                }
             }
+
             printf("\n|        |        |        |        |\n");
 
             //Old draw board
@@ -83,7 +122,7 @@ static void draw_board(void)
 }
 
 
-
+                        //  0    // 0      // 3                         // 1
 static void move_next_zero(int row, int col, int edge, int verticalDir, int horizontalDir)
 {
     int relevantDirection = horizontalDir;
@@ -108,6 +147,7 @@ static void move_next_zero(int row, int col, int edge, int verticalDir, int hori
     }
 }
 
+
 static void check_neighbour(int row, int col, int edge, int verticalDir, int horizontalDir)
 {
     int relevantDirection = horizontalDir;
@@ -122,14 +162,14 @@ static void check_neighbour(int row, int col, int edge, int verticalDir, int hor
 
         int nextSquare = game_get_square(row + verticalDir, col + horizontalDir);
         int currentSquare = game_get_square(row, col);
-
+        //If both are the same and not a zero
         if (nextSquare == currentSquare && nextSquare != 0) {
 
             array_set(board, row + verticalDir, col + horizontalDir, 2 * currentSquare);
             array_set(board, row, col, 0);
 
             // This allows for a special case where 4 consecutive
-            // tiles have the same number
+            // Squares have the same number
             if ((relevantAxis == 0 && edge == 3) || (relevantAxis == 3 && edge == 0)) {
                 check_neighbour(row + (verticalDir * 2), col + (horizontalDir * 2), edge, verticalDir, horizontalDir);
             }
@@ -149,7 +189,7 @@ void game_new(void)
 {
     srand(time(NULL));
 
-    //Create board and zero all the tiles/squares.
+    //Create board and zero all the squares.
     board = array_create(4,4);
 
     add_rand_num();
@@ -185,7 +225,6 @@ void game_slide_up(void)
         move_next_zero(3, col, edge, verticalDir, horizontalDir);
     }
 
-    printf("\n");
     add_rand_num();
     draw_board();
 }
@@ -203,7 +242,6 @@ void game_slide_right(void)
         move_next_zero(row, 0, edge, verticalDir, horizontalDir);
     }
 
-    printf("\n");
     add_rand_num();
     draw_board();
 }
@@ -221,7 +259,6 @@ void game_slide_down(void)
         move_next_zero(0, col, edge, verticalDir, horizontalDir);
     }
 
-    printf("\n");
     add_rand_num();
     draw_board();
 }
@@ -239,49 +276,66 @@ void game_slide_left(void)
         move_next_zero(row, 3, edge, verticalDir, horizontalDir);
     }
 
-    printf("\n");
     add_rand_num();
     draw_board();
 }
 
 
+/*
+    (false, game continues)
+    (true, game ends)
+
+    Checks if any square is equal to 2048.
+    Returns true if a square is equal to 2048.
+
+    Checks if any square has a square equal to itself next or below.
+    Chceks if any square has a pair next to it.
+    If either is true, return false.
+
+    Else, return true.
+*/
+
 bool game_is_game_over(void)
 {
-    bool game_over = true;
 
-    int row = 0, col = 0;
     //Return TRUE if one of the squares are 2048.
-    for ( ; row < 4; row++) {
-        for ( ; col < 4; col++) {
+    for (int row = 0 ; row < 4 ; row++) {
+        for (int col = 0 ; col < 4 ; col++) {
             if (game_get_square(row,col) == 2048) {
-                game_over = true;
-                //end game its 2048
+
+                return true;
             }
         }
     }
 
 
-    for (row = 0 ; row <= 2; row++) {
-        for (col = 0 ; col <= 2; col++) {
+    for (int row = 0 ; row <= 2 ; row++) {
+        for (int col = 0 ; col <= 2 ; col++) {
 
             int current_sq = game_get_square(row,col);
+
             int next_right_sq = game_get_square(row,col+1);
+
             int next_below_sq = game_get_square(row+1,col);
             //Checks the square next to it and below it.
             //If its the same or a 0, the game continues.
             if (current_sq == next_right_sq || next_right_sq == 0) {
-                game_over = false;
+
+                return false;
             }
             if (current_sq == next_below_sq || next_below_sq == 0 ) {
-                game_over = false;
+
+                return false;
             }
         }
     }
 
+    //Checks the last square 3,3.
+    if (game_get_square(2,3) == game_get_square(2,3) || game_get_square(3,3) == 0) {
 
-    return game_over;
-    //Go through the array and if;
-    //                                        2048 = WIN
-    //        no "neighbour is the (same or zero) = LOSE
-    //
+        return false;
+    }
+
+
+    return true;
 }
