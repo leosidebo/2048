@@ -15,6 +15,26 @@ Array *board;
 /* Internal functions */
 
 
+
+/*
+    Checks if any square is equal to the inparamter.
+*/
+static int check_board_for_square(int square_to_check)
+{
+    for (int row = 0 ; row < 4 ; row++) {
+        for (int col = 0 ; col < 4 ; col++) {
+
+            if (game_get_square(row,col) == square_to_check) {
+
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+
 /*
     Get a random row and col position between 0 and 3.
     Repeat untill the position chosen is empty.
@@ -25,24 +45,27 @@ Array *board;
 
 static void add_rand_num(void)
 {
-    int row, col;
+    if (check_board_for_square(0)) {
 
-    do {
+        int row, col;
 
-        row = rand() % 4;
-        col = rand() % 4;
+        do {
 
-    } while(game_get_square(row, col) != 0);
+            row = rand() % 4;
+            col = rand() % 4;
 
-    int num_to_add = 2;
+        } while(game_get_square(row, col) != 0);
 
-    //About a 10% chance of getting a 4.
-    if (rand() % 10 == 0) {
+        int num_to_add = 2;
 
-        num_to_add = 4;
+        //About a 10% chance of getting a 4.
+        if (rand() % 10 == 0) {
+
+            num_to_add = 4;
+        }
+        //Add the num
+        array_set(board, row, col, num_to_add);
     }
-    //Add the num
-    array_set(board, row, col, num_to_add);
 }
 
 
@@ -122,7 +145,6 @@ static void draw_board(void)
 }
 
 
-                        //  0    // 0      // 3                         // 1
 static void move_next_zero(int row, int col, int edge, int verticalDir, int horizontalDir)
 {
     int relevantDirection = horizontalDir;
@@ -321,17 +343,16 @@ void game_slide_left(void)
 bool game_is_game_over(void)
 {
 
-    //Return TRUE if one of the squares are 2048.
-    for (int row = 0 ; row < 4 ; row++) {
-        for (int col = 0 ; col < 4 ; col++) {
-            if (game_get_square(row,col) == 2048) {
-
-                return true;
-            }
-        }
+    //Return true if one of the squares are 2048.
+    if (check_board_for_square(2048)) {
+        return true;
     }
 
+    if (game_get_square(0,0) == 0) {
+        return false;
+    }
 
+    //Checks all squares except 3,3.
     for (int row = 0 ; row <= 2 ; row++) {
         for (int col = 0 ; col <= 2 ; col++) {
 
