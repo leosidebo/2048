@@ -245,7 +245,7 @@ void game_slide_up(void)
             move_next_zero(row, col, edge, verticalDir, horizontalDir);
         }
         
-        // check_neighbour(3, col, edge, verticalDir, horizontalDir);
+        check_neighbour(3, col, edge, verticalDir, horizontalDir);
         
         for(int row = 0; row <= 3; row++) {
             // move_next_zero(row, col, edge, verticalDir, horizontalDir);
@@ -264,11 +264,11 @@ void game_slide_right(void)
 
     //check if empty then move there.
     for (int row = 0 ; row <= 3 ; row++) {
-        for(int col = 0; col <= 3; col++) {
+        for(int col = 3; col >= 0; col--) {
             move_next_zero(row, col, edge, verticalDir, horizontalDir);
         }
 
-        // check_neighbour(row, 0, edge, verticalDir, horizontalDir);
+        check_neighbour(row, 0, edge, verticalDir, horizontalDir);
 
         for(int col = 0; col <= 3; col++) {
             // move_next_zero(row, col, edge, verticalDir, horizontalDir);
@@ -291,7 +291,7 @@ void game_slide_down(void)
             move_next_zero(row, col, edge, verticalDir, horizontalDir);
         }
 
-        // check_neighbour(0, col, edge, verticalDir, horizontalDir);
+        check_neighbour(0, col, edge, verticalDir, horizontalDir);
 
         for(int row = 3; row >= 0; row--) {
             // move_next_zero(row, col, edge, verticalDir, horizontalDir);
@@ -310,11 +310,11 @@ void game_slide_left(void)
 
     //check if empty then move there.
     for (int row = 3 ; row >= 0 ; row--) {
-        for(int col = 3; col >= 0; col--) {
+        for(int col = 0; col <= 3; col++) {
             move_next_zero(row, col, edge, verticalDir, horizontalDir);
         }
 
-        // check_neighbour(row, 3, edge, verticalDir, horizontalDir);
+        check_neighbour(row, 3, edge, verticalDir, horizontalDir);
         
         for(int col = 3; col >= 0; col--) {
             // move_next_zero(row, col, edge, verticalDir, horizontalDir);
