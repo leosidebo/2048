@@ -75,7 +75,7 @@ static void add_rand_num(void)
 /*
     Move algoritm for both vertical and horizontal movment.
 
-    Get the direction the square are moving in.
+    Get the direction the square is moving in.
     Up and left is 1. Down and right is -1.
     Get the relevantAxis the squares are moving on.
     Col for left and right. Row for up and down.
@@ -85,7 +85,7 @@ static void add_rand_num(void)
     check if the nextSquare is empty.
     If it is, swap places with the current and next square.
 
-    Then call the funtion again untill the square is on the edge position
+    Then call the funtion again until the square is on the edge position
     or the next square is not a zero.
 */
 
@@ -128,10 +128,14 @@ static void move_next_zero(int row, int col, int edge, int verticalDir, int hori
     Check if both squares are equal and not a zero.
     If it is, set the nextSquare to itself times two and the currentSquare to 0.
 
-    If there are four consecutive squares with the same number in a row,
-    it skips a square with a moddifed function call.
+    The check goes the opposite direction of the movement. If a player decides to
+    move the squares to the left, then the combine check goes from left to right. 
+    This is the reason the vertical and horizontal direction are sometimes multiplied with -1.
 
-    Then call the funtion again untill all the appropriate square pairs
+    If there are four consecutive squares with the same number in a row,
+    it skips a square with a modifed function call.
+
+    Then call the funtion again until all the appropriate square pairs
     have been combined.
 */
 
@@ -204,6 +208,8 @@ int game_get_square(int row, int column)
 // Slide all pieces up, right, down, or left.
 void game_slide_up(void)
 {
+    // The reason there are two different edges is that the
+    // movement and checking travel in opposite directions.
     int movementEdge = 0;
     int checkEdge = 3;
     int verticalDir = -1;

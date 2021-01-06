@@ -3,9 +3,9 @@
 
 /**
  * @defgroup        game_h  OU2
- * @author          Leo S   |   Nils L
- * @author          Leo     |   dv20nls
- * @author          Leo     |   nili0132
+ * @author          Leo S        |   Nils L
+ * @author          ens19lso     |   dv20nls
+ * @author          lesi0030     |   nili0132
  * @date            2021-01-06
  *
  * @brief Contains declarations for game.c
