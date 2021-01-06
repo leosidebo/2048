@@ -21,7 +21,6 @@
  *
  * Creates a new game board and populates it with
  * two randomly positioned squares.
- * Then it draws the board.
  *
  * @param           -
  * @return          -
@@ -108,7 +107,7 @@ void game_slide_left(void);
  * with the same value. Returns true, else false.
  *
  * @param           -
- * @return          True if the game ends, else false.
+ * @return          True if the has game ended, else false.
  */
 bool game_is_game_over(void);
 

@@ -1,9 +1,9 @@
 /**
- * @defgroup        application_h  OU1a Lista
- * @author
- * @author
- * @author
- * @date            2020-01-xx
+ * @defgroup        application_h  OU2
+ * @author          Leo S   |   Nils L
+ * @author          Leo     |   dv20nls
+ * @author          Leo     |   nili0132
+ * @date            2021-01-06
  *
  * @brief Contains declarations for application.c
  *
@@ -16,8 +16,9 @@
 #include <stdbool.h>
 
  /**
-  * @brief
+  * @brief Starts the application.
   *
+  * Starts the application.
   *
   * @param           -
   * @return          -
