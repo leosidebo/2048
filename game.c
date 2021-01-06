@@ -314,14 +314,17 @@ bool game_is_game_over(void)
 {
     // Return true if one of the squares are 2048.
     if (check_board_for_square(2048)) {
+        
         return true;
     }
 
+    //Checks the first square
     if (game_get_square(0,0) == 0) {
+
         return false;
     }
 
-    // Checks all squares except 3,3.
+    // Checks all squares except 3,3 and if 0,0 is a zero..
     for (int row = 0 ; row <= 2 ; row++) {
         for (int col = 0 ; col <= 2 ; col++) {
 
@@ -332,7 +335,7 @@ bool game_is_game_over(void)
             int next_below_sq = game_get_square(row+1,col);
 
             // Checks the square next to it and below it.
-            // If its the same or a 0, the game continues.
+            // If they are equal or a 0, the game continues.
             if (current_sq == next_right_sq || next_right_sq == 0) {
 
                 return false;
